@@ -1,0 +1,84 @@
+{
+  "users": [
+    {
+      "name": "Rupesh",
+      "email": "john@gmail.com",
+      "phone": "9865986569",
+      "address": "UK",
+      "id": 1,
+      "status": "Active"
+    },
+    {
+      "name": "Ashok",
+      "email": "john@gmail.com",
+      "phone": "9865986569",
+      "address": "US",
+      "id": 2,
+      "status": "Inactive"
+    },
+    {
+      "name": "Rohit",
+      "email": "john@gmail.com",
+      "phone": "9865986569",
+      "address": "Canada",
+      "id": 3,
+      "status": "Active"
+    },
+    {
+      "name": "Mahesh",
+      "email": "john@gmail.com",
+      "phone": "9865986569",
+      "address": "Kolhapur",
+      "id": 4,
+      "status": "Active"
+    },
+    {
+      "name": "Mohini",
+      "email": "john@gmail.com",
+      "phone": "9865986569",
+      "address": "Sangli",
+      "id": 5,
+      "status": "Active"
+    },
+    {
+      "name": "Chirag",
+      "email": "john@gmail.com",
+      "phone": "9865986569",
+      "address": "Miraj",
+      "id": 6,
+      "status": "Active"
+    },
+    {
+      "name": "Chetan",
+      "email": "john@gmail.com",
+      "phone": "9865986569",
+      "address": "Gujrat",
+      "id": 7,
+      "status": "Active"
+    },
+    {
+      "name": "Mayur",
+      "email": "john@gmail.com",
+      "phone": "9865986569",
+      "address": "Pune",
+      "id": 8,
+      "status": "Inactive"
+    },
+    {
+      "name": "Mangesh",
+      "email": "john@gmail.com",
+      "phone": "9865986569",
+      "address": "Banglore",
+      "id": 9,
+      "status": "Inactive"
+    },
+    {
+      "name": "Ashwini",
+      "email": "john@gmail.com",
+      "phone": "9865986569",
+      "address": "UK",
+      "id": 10,
+      "status": "Active"
+    }
+  ]
+}
