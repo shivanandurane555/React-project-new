@@ -19,37 +19,61 @@ const App = () => {
   const [data, setData] = useState([]);
   const [value, setValue] = useState("");
   const [sortValue, setsortValue] = useState("");
+  const [currentPage, setCurrentPage] = useState(0);
+  const [pageLimit] = useState(4);
+  const [sortFilterValue, setSortFilterValue] = useState("");
+  const [operation, setOperation] = useState("");
 
   const sortOptions = ["name", "address", "email", "phone", "status"];
 
   useEffect(() => {
-    loadUserData();
+    loadUserData(0, 4, 0);
   }, []);
 
   //load User Data
-  const loadUserData = async () => {
-    return await axios
-      .get("http://localhost:5000/users?_start=0&_end=4")
-      .then((response) => setData(response.data))
-      .catch((err) => console.log(err));
+  const loadUserData = async (
+    start,
+    end,
+    increase,
+    optType = null,
+    filterOrSortValue
+  ) => {
+    switch (optType) {
+      case "search":
+        setOperation(optType);
+        setsortValue("");
+        return await axios
+          .get(
+            `http://localhost:5000/users?q=${value}&_start=${start}&_end=${end}`
+          )
+          .then((response) => {
+            setData(response.data);
+            setCurrentPage(currentPage + increase);
+          })
+          .catch((err) => console.log(err));
+      default:
+        return await axios
+          .get(`http://localhost:5000/users?_start=${start}&_end=${end}`)
+          .then((response) => {
+            setData(response.data);
+            setCurrentPage(currentPage + increase);
+          })
+          .catch((err) => console.log(err));
+    }
   };
 
   console.log("data", data);
 
   const handleReset = () => {
-    loadUserData();
+    setOperation("");
+    setValue("");
+    loadUserData(0, 4, 0);
   };
 
   //Search function
   const handleSearch = async (e) => {
     e.preventDefault();
-    return await axios
-      .get(`http://localhost:5000/users?q=${value}`)
-      .then((response) => {
-        setData(response.data);
-        setValue("");
-      })
-      .catch((err) => console.log(err));
+    loadUserData(0, 4, 0, "search");
   };
 
   //sorting
@@ -72,6 +96,82 @@ const App = () => {
         setData(response.data);
       })
       .catch((err) => console.log(err));
+  };
+
+  const renderPagination = () => {
+    if (data.length < 4 && currentPage === 0) return null;
+    if (currentPage === 0) {
+      return (
+        <MDBPagination className="mb-0">
+          <MDBPaginationItem>
+            <MDBPaginationLink>1</MDBPaginationLink>
+          </MDBPaginationItem>
+          <MDBPaginationItem>
+            <MDBBtn onClick={() => loadUserData(4, 8, 1, operation)}>
+              Next
+            </MDBBtn>
+          </MDBPaginationItem>
+        </MDBPagination>
+      );
+    } else if (currentPage < pageLimit - 1 && data.length === pageLimit) {
+      return (
+        <MDBPagination className="mb-0">
+          <MDBPaginationItem>
+            <MDBBtn
+              onClick={() =>
+                loadUserData(
+                  (currentPage - 1) * 4,
+                  currentPage * 4,
+                  -1,
+                  operation
+                )
+              }
+            >
+              Previous
+            </MDBBtn>
+          </MDBPaginationItem>
+          <MDBPaginationItem>
+            <MDBPaginationLink>{currentPage + 1}</MDBPaginationLink>
+          </MDBPaginationItem>
+          <MDBPaginationItem>
+            <MDBBtn
+              onClick={() =>
+                loadUserData(
+                  (currentPage + 1) * 4,
+                  (currentPage + 2) * 4,
+                  1,
+                  operation
+                )
+              }
+            >
+              Next
+            </MDBBtn>
+          </MDBPaginationItem>
+        </MDBPagination>
+      );
+    } else {
+      return (
+        <MDBPagination className="mb-0">
+          <MDBPaginationItem>
+            <MDBBtn
+              onClick={() =>
+                loadUserData(
+                  (currentPage - 1) * 4,
+                  currentPage * 4,
+                  -1,
+                  operation
+                )
+              }
+            >
+              Prev
+            </MDBBtn>
+          </MDBPaginationItem>
+          <MDBPaginationItem>
+            <MDBPaginationLink>{currentPage + 1}</MDBPaginationLink>
+          </MDBPaginationItem>
+        </MDBPagination>
+      );
+    }
   };
 
   return (
@@ -142,6 +242,16 @@ const App = () => {
               </MDBTable>
             </MDBCol>
           </MDBRow>
+          <div
+            style={{
+              margin: "auto",
+              padding: "15px",
+              maxWidth: "250px",
+              alignContent: "center",
+            }}
+          >
+            {renderPagination()}{" "}
+          </div>
         </div>
 
         <MDBRow>
