@@ -9,9 +9,10 @@ import {
   MDBContainer,
   MDBBtn,
   MDBBtnGroup,
-  // MDBBtnGroup,
+  MDBPagination,
+  MDBPaginationItem,
+  MDBPaginationLink,
 } from "mdb-react-ui-kit";
-
 
 //states
 const App = () => {
@@ -25,11 +26,10 @@ const App = () => {
     loadUserData();
   }, []);
 
-
   //load User Data
   const loadUserData = async () => {
     return await axios
-      .get("http://localhost:5000/users")
+      .get("http://localhost:5000/users?_start=0&_end=4")
       .then((response) => setData(response.data))
       .catch((err) => console.log(err));
   };
@@ -39,7 +39,6 @@ const App = () => {
   const handleReset = () => {
     loadUserData();
   };
-
 
   //Search function
   const handleSearch = async (e) => {
@@ -74,7 +73,6 @@ const App = () => {
       })
       .catch((err) => console.log(err));
   };
-
 
   return (
     <>
